@@ -1,0 +1,8 @@
+export enum ECurrentScreen {
+    DEFAULT,
+    CADASTROEMPRESA,
+    CADASTROPESSOA,
+    CADASTROCONTRATOLOCACAO,
+    PERFIL,
+    MESCLARPDFS
+}

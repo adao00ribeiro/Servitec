@@ -1,0 +1,46 @@
+:root {
+  //background
+  --very-dark-gray: #141414;
+  --normal-dark-gray: #383838;
+  //background input
+  --dark-gray: #222222;
+  //button
+  --golden-yellow: #FFBB03;
+  --golden-yellow-dark: #af8102;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--very-dark-gray);
+
+
+}
+
+body,
+input,
+textarea,
+select,
+button {
+  font: 400 1rem sans-serif;
+}
+
+
+@media (max-width:720px) {
+
+  html {
+    font-size: 87.5%; //vai gerar 14px
+  }
+}
+
+@media (max-width:720px) {
+
+  html {
+    font-size: 93.75%; //vai gerar 14px
+  }
+}

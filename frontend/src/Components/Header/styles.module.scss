@@ -1,0 +1,71 @@
+.headerContainer {
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+    background-color: var(--very-dark-gray);
+    border-bottom: 2px solid rgb(0, 0, 0);
+}
+
+.headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    margin: 0 1rem;
+}
+
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    span {
+        font-size: 1rem;
+        text-decoration: none;
+        color: white
+    }
+}
+
+.containerRight {
+    display: flex;
+    color: white;
+    align-items: center;
+    gap: 1rem;
+}
+
+.containerMenu {
+    background-color: rgb(138, 138, 138);
+    height: 2rem;
+
+}
+
+.btnHamburguer {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+
+}
+
+.btnHamburguer:hover {
+    color: yellow;
+}
+
+.containerAvatar {
+
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 2rem;
+    background-color: white;
+    cursor: pointer;
+
+    img {
+
+        border-radius: 2rem;
+        width: 100%;
+        height: 100%;
+    }
+}

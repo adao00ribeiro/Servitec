@@ -1,0 +1,13 @@
+.containerTabs {
+    background-color: rgb(126, 126, 126);
+    padding: 10px;
+}
+
+.tabs {
+    display: flex;
+
+    button {
+        font-size: 12px;
+        padding: 5px;
+    }
+}

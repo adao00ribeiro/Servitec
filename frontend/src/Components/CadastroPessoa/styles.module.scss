@@ -1,0 +1,53 @@
+.containerCadastrar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 0 auto;
+    width: 600px;
+
+
+    /* Define a altura desejada */
+
+
+    h1 {
+        margin-top: 1rem;
+        text-align: center;
+        color: white;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+}
+
+.form {
+
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.group {
+    label {
+        font-weight: bold;
+    }
+
+    input,
+    select {
+        width: 100%;
+        padding: 5px;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+    }
+
+
+}
+
+.groupBtn {
+    flex: 2;
+    display: flex;
+    gap: 0.2rem;
+
+    button {
+        padding: 10px;
+    }
+}

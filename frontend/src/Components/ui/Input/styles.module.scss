@@ -1,0 +1,26 @@
+.input {
+    background-color: var(--dark-gray);
+    color: rgb(255, 255, 255);
+    padding: 5px;
+    border: 1px solid #696969;
+    border-radius: 5px;
+    height: 30px;
+    font-size: 18px;
+    font-weight: 500;
+    outline: none;
+}
+
+.input:focus {
+    outline: 1px solid #8b8b8b;
+}
+
+.input::placeholder {
+    color: #F0F0F0;
+}
+
+.input:disabled {
+    background-color: gray;
+    /* Defina a cor desejada para o botão desativado */
+    cursor: not-allowed;
+    /* Altera o cursor para mostrar que o botão está desativado */
+}

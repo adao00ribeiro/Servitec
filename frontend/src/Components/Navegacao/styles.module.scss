@@ -1,0 +1,17 @@
+.groupbuttonsnext {
+    display: flex;
+    flex-direction: row;
+    gap: 0.2rem;
+
+    input {
+        width: 80px;
+        margin-right: 10px;
+    }
+
+    button {
+
+        border-radius: 0px;
+        padding: 5px 10px;
+    }
+
+}

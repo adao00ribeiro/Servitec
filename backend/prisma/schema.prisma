@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL_SQLITE")
+}
+
+model User {
+  id        String @id @default(uuid())
+  name      String
+  email     String @unique
+  password  String
+  jobtitle  String @default("")
+  avatarurl String @default("")
+}
+
+model Company {
+  id       String   @id @default(uuid())
+  cnpj     String   @unique
+  nire     String
+  datanire String
+  name     String   @unique
+  address  Address?
+}
+
+model Person {
+  id                   String          @id @default(uuid())
+  name                 String
+  birthDate            String
+  nationalityCountry   String
+  municipality         String
+  state                String
+  country              String
+  address              Address?
+  identity             Identity?
+  leaseContractLocator LeaseContract[] @relation("Locator")
+  leaseContractTenant  LeaseContract[] @relation("Tenant")
+}
+
+model Address {
+  id           String   @id @default(uuid())
+  personId     String?  @unique
+  companyId    String?  @unique
+  streetType   String
+  residence    String
+  number       String
+  complement   String
+  neighborhood String
+  county       String
+  uf           String
+  pais         String
+  cep          String
+  company      Company? @relation(fields: [companyId], references: [id])
+  person       Person?  @relation(fields: [personId], references: [id])
+}
+
+model Identity {
+  id           String @id @default(uuid())
+  personId     String @unique
+  cpf          String @unique
+  rg           String @unique
+  dispatchBody String
+  uf           String
+  date         String
+  person       Person @relation(fields: [personId], references: [id])
+}
+
+model LeaseContract {
+  id               String @id @default(uuid())
+  tenantId         String
+  propertyType     String
+  address          String
+  number           String
+  neighborhood     String
+  city             String
+  state            String
+  zipCode          String
+  durationType     String
+  duration         String
+  extendedDuration String
+  startDate        String
+  endDate          String
+  amount           String
+  amountInWords    String
+  contractDate     String
+
+  PersonLocator   Person? @relation("Locator", fields: [PersonLocatorId], references: [id])
+  PersonLocatorId String
+  PersonTenant    Person? @relation("Tenant", fields: [PersonTenantId], references: [id])
+  PersonTenantId  String
+}
