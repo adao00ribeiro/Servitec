@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 import Button from "../ui/Button";
-import { ChangeEvent, KeyboardEvent, MouseEvent, useState } from "react";
+import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from "react";
 import { Input } from "../ui/Input";
 import Navegacao from "../Navegacao";
 import Tabs from "../Tabs";
@@ -25,7 +25,41 @@ export function CadastroPessoa() {
     const setPerson = useCadastroPessoa(state => state.setPerson);
 
     const [indexPerson, setindexPerson] = useState(0);
+    useEffect(() => {
 
+        if (data?.length > 0) {
+            console.log(data[data.length - 1])
+            setPerson(data[data.length - 1]);
+        } else {
+            setPerson({
+                name: "",
+                birthDate: "",
+                nationalityCountry: "",
+                municipality: "",
+                state: "",
+                country: "",
+                address: {
+                    streetType: "",
+                    residence: "",
+                    number: "",
+                    complement: "",
+                    neighborhood: "",
+                    county: "",
+                    uf: "",
+                    pais: "",
+                    cep: "",
+                },
+                identity: {
+                    personId: "",
+                    cpf: "",
+                    rg: "",
+                    dispatchBody: "",
+                    uf: "",
+                    date: "",
+                }
+            });
+        }
+    }, [data, setPerson])
     function pressKey(e: KeyboardEvent<HTMLInputElement>) {
         if (e.key == 'F2') {
             setIsPanelList(IsList => !IsList)
@@ -69,10 +103,36 @@ export function CadastroPessoa() {
             });
         } else {
             if (data?.length > 0) {
-                setPerson(data[0])
+                setPerson(data[data.length - 1])
 
             } else {
-                setPerson(Person)
+                setPerson({
+                    name: "",
+                    birthDate: "",
+                    nationalityCountry: "",
+                    municipality: "",
+                    state: "",
+                    country: "",
+                    address: {
+                        streetType: "",
+                        residence: "",
+                        number: "",
+                        complement: "",
+                        neighborhood: "",
+                        county: "",
+                        uf: "",
+                        pais: "",
+                        cep: "",
+                    },
+                    identity: {
+                        personId: "",
+                        cpf: "",
+                        rg: "",
+                        dispatchBody: "",
+                        uf: "",
+                        date: "",
+                    }
+                });
             }
         }
         setCadastroPessoa(
@@ -95,13 +155,9 @@ export function CadastroPessoa() {
                 const residentity = await api.post('/identity', identity)
                 alert(residentity.statusText)
             } else {
-                const response = await api.patch('/person', Person);
-                const idperson = response.data.id;
-                const address = { ...Person.address, personId: idperson }
-                const resaddress = await api.patch('/address', address)
-                const identity = { ...Person.identity, personId: idperson }
-                const residentity = await api.patch('/identity', identity)
-                alert('update' + residentity.statusText)
+                console.log(Person)
+                const response = await api.patch(`/person/${Person.id}`, Person);
+
             }
         } catch (error) {
             alert(error?.response?.data?.message)
@@ -120,7 +176,47 @@ export function CadastroPessoa() {
         setPerson(p);
     }
     const btnEdit = async (event: MouseEvent<HTMLButtonElement>) => {
+        if (CadastroPessoa.IsEdit) {
 
+            if (data?.length > 0) {
+                setPerson(data[data.length - 1])
+
+            } else {
+                setPerson({
+                    name: "",
+                    birthDate: "",
+                    nationalityCountry: "",
+                    municipality: "",
+                    state: "",
+                    country: "",
+                    address: {
+                        streetType: "",
+                        residence: "",
+                        number: "",
+                        complement: "",
+                        neighborhood: "",
+                        county: "",
+                        uf: "",
+                        pais: "",
+                        cep: "",
+                    },
+                    identity: {
+                        personId: "",
+                        cpf: "",
+                        rg: "",
+                        dispatchBody: "",
+                        uf: "",
+                        date: "",
+                    }
+                });
+            }
+        }
+        setCadastroPessoa(
+            {
+                ...CadastroPessoa,
+                IsNew: !CadastroPessoa.IsNew
+            }
+        );
         setCadastroPessoa({
             ...CadastroPessoa,
             IsEdit: !CadastroPessoa.IsEdit

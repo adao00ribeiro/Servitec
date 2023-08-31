@@ -45,19 +45,23 @@ export class PersonService {
   }
 
   async findOne(id: string) {
-    return this.prisma.user.findUnique({
+    return await this.prisma.person.findUnique({
       where: { id }
     });
   }
 
   async update(id: string, updatePersonDto: UpdatePersonDto) {
+
     const person = await this.findOne(id);
     if (!person) {
       throw new Error('Record to update does not exist.');
     }
+    const data = { ...updatePersonDto };
+    delete data.address;
+    delete data.identity;
     return this.prisma.person.update({
       where: { id },
-      data: updatePersonDto
+      data
     })
   }
 
