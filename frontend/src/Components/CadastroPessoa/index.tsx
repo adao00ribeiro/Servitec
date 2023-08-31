@@ -87,16 +87,32 @@ export function CadastroPessoa() {
 
         try {
             if (!CadastroPessoa.IsEdit) {
-                const response = await api.post('/person', Person)
-
-                alert(response.statusText)
+                const response = await api.post('/person', Person);
+                const idperson = response.data.id;
+                const address = { ...Person.address, personId: idperson }
+                const resaddress = await api.post('/address', address)
+                const identity = { ...Person.identity, personId: idperson }
+                const residentity = await api.post('/identity', identity)
+                alert(residentity.statusText)
             } else {
-
-
+                const response = await api.patch('/person', Person);
+                const idperson = response.data.id;
+                const address = { ...Person.address, personId: idperson }
+                const resaddress = await api.patch('/address', address)
+                const identity = { ...Person.identity, personId: idperson }
+                const residentity = await api.patch('/identity', identity)
+                alert('update' + residentity.statusText)
             }
         } catch (error) {
             alert(error?.response?.data?.message)
         }
+        setCadastroPessoa(
+            {
+                ...CadastroPessoa,
+                IsNew: false,
+                IsEdit: false
+            }
+        );
     }
     const handleInputPerson = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target

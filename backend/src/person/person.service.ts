@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreatePersonDto } from './dto/create-person.dto';
 import { UpdatePersonDto } from './dto/update-person.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -10,9 +10,20 @@ export class PersonService {
   }
 
   async create(createPersonDto: CreatePersonDto) {
+    const Identity = createPersonDto.identity as Identity;
+
     try {
+      const identity = await this.prisma.identity.findUnique({
+        where: { cpf: Identity.cpf }
+      })
+      if (identity) {
+        throw new HttpException('CPF ja existe', HttpStatus.FORBIDDEN);
+      }
+      const data = { ...createPersonDto };
+      delete data.address;
+      delete data.identity;
       const person = this.prisma.person.create({
-        data: createPersonDto
+        data
       })
       return person;
     } catch (e) {
@@ -21,6 +32,7 @@ export class PersonService {
           throw new Error('There is a unique constraint violation, a new user cannot be created with this email');
         }
       }
+      throw e;
     }
   }
 
