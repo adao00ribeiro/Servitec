@@ -68,14 +68,18 @@ export class PersonService {
   async remove(id: string) {
     try {
       return await this.prisma.person.delete({
-        where: { id }
+        where: { id: id }
       })
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2025') {
-          throw new Error('Record to delete does not exist.');
+          throw new HttpException('Record to delete does not exist.', HttpStatus.NOT_FOUND);
+        }
+        if (e.code === "P2003") {
+          throw new HttpException('Foreign key constraint failed on the field', HttpStatus.NOT_FOUND);
         }
       }
+      throw e;
     }
   }
 }

@@ -17,6 +17,7 @@ export function useMultationDeletePerson() {
     const client = useQueryClient();
     return useMutation(async (id: string) => {
         const res = await api.delete(`/person/${id}`);
+        console.log(res);
         return res
     }, {
         onSuccess: () => {

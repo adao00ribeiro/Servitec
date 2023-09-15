@@ -4,10 +4,10 @@ import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from "rea
 import { Input } from "../ui/Input";
 import Navegacao from "../Navegacao";
 import Tabs from "../Tabs";
-import { useRepoPerson } from "../../query/repo/person";
+import { useMultationDeletePerson, useRepoPerson } from "../../query/repo/person";
 import useCadastroPessoa from "../../Store/useCadastroPessoa";
 import { api } from "../../services/apiClient";
-
+import { useApi } from "../../hooks/useApi";
 
 export interface ICadastroPessoa {
     IsNew: boolean;
@@ -16,14 +16,14 @@ export interface ICadastroPessoa {
 
 
 export function CadastroPessoa() {
-
+    const api = useApi();
     const { data, isFetching, isError } = useRepoPerson();
     const [IsPanelList, setIsPanelList] = useState(false);
     const CadastroPessoa = useCadastroPessoa(state => state.cadastroPessoa);
     const setCadastroPessoa = useCadastroPessoa(state => state.setCadastroPessoa);
     const Person = useCadastroPessoa(state => state.Person);
     const setPerson = useCadastroPessoa(state => state.setPerson);
-
+    const deletePerson = useMultationDeletePerson();
     const [indexPerson, setindexPerson] = useState(0);
     useEffect(() => {
 
@@ -69,8 +69,8 @@ export function CadastroPessoa() {
         if (!data) {
             return;
         }
-        //setindexCompany(index)
-        //setCompany(data[index]);
+        setindexPerson(index)
+        setPerson(data[index]);
     }
     const BtnNew = () => {
         if (!CadastroPessoa.IsNew) {
@@ -176,54 +176,20 @@ export function CadastroPessoa() {
         setPerson(p);
     }
     const btnEdit = async (event: MouseEvent<HTMLButtonElement>) => {
-        if (CadastroPessoa.IsEdit) {
-
-            if (data?.length > 0) {
-                setPerson(data[data.length - 1])
-
-            } else {
-                setPerson({
-                    name: "",
-                    birthDate: "",
-                    nationalityCountry: "",
-                    municipality: "",
-                    state: "",
-                    country: "",
-                    address: {
-                        streetType: "",
-                        residence: "",
-                        number: "",
-                        complement: "",
-                        neighborhood: "",
-                        county: "",
-                        uf: "",
-                        pais: "",
-                        cep: "",
-                    },
-                    identity: {
-                        personId: "",
-                        cpf: "",
-                        rg: "",
-                        dispatchBody: "",
-                        uf: "",
-                        date: "",
-                    }
-                });
-            }
-        }
         setCadastroPessoa(
             {
                 ...CadastroPessoa,
-                IsNew: !CadastroPessoa.IsNew
+                IsEdit: !CadastroPessoa.IsEdit
             }
         );
-        setCadastroPessoa({
-            ...CadastroPessoa,
-            IsEdit: !CadastroPessoa.IsEdit
-        })
     }
     const btnDelete = async (event: MouseEvent<HTMLButtonElement>) => {
-        // deleteCompany.mutate(company.id)
+        try {
+            const res = await api.delete(`/identity/${Person.identity.id}`);
+            deletePerson.mutate(Person.id);
+        } catch (error) {
+            console.log(error);
+        }
     }
     function OnSubmitHandle(event: ChangeEvent<HTMLFormElement>) {
         event.preventDefault();
